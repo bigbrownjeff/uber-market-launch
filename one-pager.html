@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Marketplace-launch supply diagnostic — one-pager · Jeff Pinto</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --paper: #ffffff;
+    --muted: #6b6760;
+    --line: #d8d4cc;
+    --accent: #2f6f4f;
+    --serif: "Source Serif Pro", Georgia, "Times New Roman", serif;
+    --sans: Inter, system-ui, -apple-system, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #efece6; color: var(--ink); }
+  body { font-family: var(--sans); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  .sheet {
+    max-width: 8.5in; margin: 24px auto; background: var(--paper);
+    padding: 0.62in 0.7in 0.7in; box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+  }
+  .eyebrow { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; }
+  h1 { font-family: var(--serif); font-weight: 600; font-size: 27px; line-height: 1.15; margin: 0 0 6px; }
+  .standfirst { font-family: var(--serif); font-style: italic; font-size: 14.5px; color: #3a3733; margin: 0 0 18px; max-width: 60ch; }
+  h2 { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); margin: 20px 0 8px; padding-bottom: 5px; border-bottom: 1px solid var(--line); }
+  p { margin: 0 0 10px; font-size: 12.5px; }
+  .lede { font-size: 13px; }
+  strong { font-weight: 600; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  ul { margin: 4px 0 10px; padding-left: 18px; }
+  li { font-size: 12.5px; margin-bottom: 5px; }
+  .wedge { border-left: 3px solid var(--accent); padding: 8px 0 8px 14px; margin: 12px 0; background: #f7faf8; }
+  .wedge p { margin: 0; font-family: var(--serif); font-size: 13px; }
+  .price-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 6px 0 4px; }
+  .price-card { border: 1px solid var(--line); padding: 10px 12px; }
+  .price-card .k { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .price-card .v { font-family: var(--serif); font-size: 19px; font-weight: 600; margin-top: 3px; }
+  .price-card .d { font-size: 11px; color: var(--muted); margin-top: 3px; }
+  .timeline { list-style: none; padding: 0; margin: 4px 0 6px; }
+  .timeline li { display: grid; grid-template-columns: 78px 1fr; gap: 10px; margin-bottom: 7px; align-items: baseline; }
+  .timeline .wk { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.04em; }
+  .ask { background: var(--ink); color: #faf8f3; padding: 14px 16px; margin-top: 16px; }
+  .ask h2 { color: #faf8f3; border-color: #44413c; margin-top: 0; }
+  .ask p { font-size: 12.5px; margin-bottom: 6px; }
+  .ask a { color: #fff; }
+  .foot { display: flex; justify-content: space-between; align-items: baseline; margin-top: 14px; font-family: var(--mono); font-size: 10px; color: var(--muted); gap: 12px; flex-wrap: wrap; }
+  .foot a { color: var(--ink); text-decoration: none; }
+  .tag { display: inline-block; font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid var(--line); padding: 2px 6px; color: var(--muted); margin-right: 4px; }
+  @media print {
+    html, body { background: #fff; }
+    .sheet { box-shadow: none; margin: 0; max-width: none; padding: 0 0.15in; }
+    @page { size: letter; margin: 0.4in; }
+    .ask { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .wedge, .price-card { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .wedge, .price-grid, .timeline li, .ask { break-inside: avoid; }
+    /* One-page fit: print at the fleet's sheet-density type sizes (9.5–11.3px band); screen sizes unchanged. */
+    body { line-height: 1.35; }
+    .eyebrow { font-size: 9px; margin-bottom: 6px; }
+    h1 { font-size: 23px; margin-bottom: 4px; }
+    .standfirst { font-size: 12.5px; margin-bottom: 8px; }
+    h2 { font-size: 9.5px; margin: 10px 0 4px; padding-bottom: 4px; }
+    p, li, .ask p { font-size: 10.5px; }
+    p { margin-bottom: 7px; }
+    .lede { font-size: 11px; }
+    .cols { gap: 18px; }
+    ul { margin: 2px 0 6px; }
+    li { margin-bottom: 3px; }
+    .wedge { margin: 7px 0; padding: 6px 0 6px 12px; }
+    .wedge p { font-size: 11px; }
+    .price-grid { gap: 10px; margin: 4px 0 2px; }
+    .price-card { padding: 7px 9px; }
+    .price-card .k { font-size: 8.5px; }
+    .price-card .v { font-size: 16px; }
+    .price-card .d { font-size: 10px; }
+    .timeline .wk { font-size: 9px; }
+    .timeline li { margin-bottom: 3px; }
+    .ask { margin-top: 8px; padding: 10px 14px; }
+    .ask p { margin-bottom: 5px; }
+    .foot { margin-top: 6px; font-size: 9px; }
+    .tag { font-size: 8px; }
+  }
+  @media (max-width: 620px) {
+    .sheet { padding: 28px 20px 32px; }
+    .cols, .price-grid { grid-template-columns: 1fr; }
+    .foot { flex-direction: column; gap: 4px; }
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <p class="eyebrow">Diagnostic engagement · marketplace launch · supply side</p>
+  <h1>Your launch is a courier-elasticity problem. Let's price the supply curve before the budget review does.</h1>
+  <p class="standfirst">A 6–10 week supply-first diagnostic for retail-goods, grocery, and Q-commerce marketplaces that launched in the last 18 months — from the person who led eight analysts on the Uber Market launch.</p>
+
+  <h2>The problem</h2>
+  <p class="lede">A marketplace launch lands in the board deck as a growth story. Underneath, it's a labour-supply elasticity problem against a finite courier fleet — and the demand team and the supply team are paid against opposite KPIs: onboarding velocity vs. cheap incremental trips. Every merchant onboarded faster than you can fill at peak is a dollar pulled out of the incentive budget. When the courier-acceptance numbers come in softer than the deck promised, that seam is almost always where it broke.</p>
+
+  <div class="cols">
+    <div>
+      <h2>What it is</h2>
+      <p>Four artefacts, fit to your data:</p>
+      <ul>
+        <li><strong>A courier-elasticity model</strong> — your peak-window $/hr mapped to a fitted, diminishing-returns utilisation curve, per vertical (the food curve doesn't transfer to retail).</li>
+        <li><strong>A free-rider decomposition</strong> — every dollar of lift split into couriers you bought vs. couriers who'd have shown up anyway.</li>
+        <li><strong>A merchant cohort-decay panel</strong> — the survival cliff ("5 orders by week 4") that separates merchants who stick (69% still ordering at week 12, synthetic) from merchants who quietly fizzle (1%).</li>
+        <li><strong>A joint scorecard</strong> — one weekly artefact your supply and demand analysts can both defend, and a cadence that forces the tradeoff into one room.</li>
+      </ul>
+    </div>
+    <div>
+      <h2>The wedge — vs. the demand-led launch playbook</h2>
+      <div class="wedge"><p>The demand-led playbook isn't wrong — merchant onboarding velocity is a real lever, and it gets the press release. But the supply side gets the late-night Slack thread when Tuesday fill-rate drops below the merchant SLA. You win launches on the supply curve — so we instrument it first, and the free-rider column from day one, not the week of the budget review.</p></div>
+      <p>The free-rider metric is the one most experimental-design write-ups skip — and the first thing finance asks: <em>what fraction of these couriers would have shown up anyway?</em> In the simulator's synthetic baseline, a $5/hr peak incentive reads ~38% free riders and $10.45 per <strong>incremental</strong> trip — not the flattering per-trip number. Having that column ready is the difference between defending the program and watching it get cut.</p>
+    </div>
+  </div>
+
+  <h2>Who this is for</h2>
+  <p><strong>VP Analytics · Head of Marketplace · GM</strong> at a retail-goods, grocery, or Q-commerce delivery company that launched in the last 18 months and is spending real money on peak-window courier incentives — and not sure how much of it is buying behaviour versus a payroll bump.</p>
+
+  <h2>Pricing</h2>
+  <div class="price-grid">
+    <div class="price-card"><div class="k">Scope</div><div class="v">Fixed-fee</div><div class="d">Per diagnostic, scoped up front. No hourly drift.</div></div>
+    <div class="price-card"><div class="k">Duration</div><div class="v">6–10 wks</div><div class="d">One supply analyst's quarter, compressed.</div></div>
+    <div class="price-card"><div class="k">Engagement</div><div class="v">$45–75K</div><div class="d">Band by data-readiness and vertical count.</div></div>
+  </div>
+  <p style="font-size:11px;color:var(--muted);margin-top:6px;">Optional follow-on: a 3-month embedded build that trains your analysts to run the cadence without me.</p>
+
+  <h2>The 6–10 week diagnostic</h2>
+  <ul class="timeline">
+    <li><span class="wk">Weeks 1–2</span><span>Data readiness. Pull courier-acceptance logs and merchant order history; agree verticals and the gate definition; calibrate the synthetic model to your fleet size.</span></li>
+    <li><span class="wk">Weeks 3–5</span><span>Fit the supply curve per vertical; estimate the free-rider share from a geo- or time-split, not an assumption. First real cost-per-incremental-trip numbers.</span></li>
+    <li><span class="wk">Weeks 5–7</span><span>Merchant cohort-decay model on your data; locate the survival cliff and the early-activity gate. Per-cohort intervention recommendations.</span></li>
+    <li><span class="wk">Weeks 7–9</span><span>Build the joint scorecard — supply and demand in one weekly view. Dry-run the arbitration cadence with both analysts in the room.</span></li>
+    <li><span class="wk">Weeks 9–10</span><span>Handoff artefact + readout to VP/GM. What to fund, what to cut, and the one meeting to keep running every Monday.</span></li>
+  </ul>
+
+  <div class="ask">
+    <h2>The ask</h2>
+    <p>If the courier-acceptance numbers look softer than the deck claimed, bring one market's peak-window incentive line and its acceptance log to a 30-minute call. I'll sketch where your supply curve is actually bending and a first cut of the free-rider share. If the spend looks clean, I'll say so. Poke at the <a href="sim.html">runnable simulator beside this sheet</a> first — synthetic numbers, real method.</p>
+    <p><strong>Book a scoping call: <a href="https://jeffpinto.com/engage/">jeffpinto.com/engage/</a></strong> &nbsp;·&nbsp; Prototype: <a href="https://github.com/bigbrownjeff/uber-market-launch">github.com/bigbrownjeff/uber-market-launch</a></p>
+  </div>
+
+  <div class="foot">
+    <span><span class="tag">Built by Jeff Pinto</span> Led 8 analysts on the Uber Market launch + Uber Money / Open Loop.</span>
+    <span><a href="https://jeffpinto.com">jeffpinto.com</a> · <a href="https://jeffpinto.com/notes/uber-market-launch/">the source note</a></span>
+  </div>
+</div>
+</body>
+</html>

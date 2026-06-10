@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>I built the free-rider calculator I wished I&#x27;d had in 2019. · Jeff Pinto</title>
+<meta name="description" content="A runnable courier-elasticity simulator and a merchant cohort-decay panel — the two artefacts a marketplace launch actually turns on, with the free-rider column finance always eventually asks about.">
+<link rel="stylesheet" href="../_assets/note.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <a class="back" href="../index.html">&larr; The <span class="rcpt">Receipts</span> &mdash; prototypes</a>
+    <a class="out" href="https://jeffpinto.com" target="_blank" rel="noopener">jeffpinto.com &uarr;</a>
+  </div>
+
+  <section class="note-hero">
+    <h1 class="h1 note-title">I built the free-rider calculator I wished I&#x27;d had in 2019.</h1>
+    <p class="deck note-deck">A runnable courier-elasticity simulator and a merchant cohort-decay panel — the two artefacts a marketplace launch actually turns on, with the free-rider column finance always eventually asks about.</p>
+    <div class="eyebrow note-hero-meta"><span class="sec">LEADING</span> · UPDATED JUN 8, 2026 · 6 MIN READ · 1,180 WORDS</div>
+  </section>
+
+  <article class="note-body case-prose">
+<p>Set a $5/hr peak incentive in the simulator and it'll tell you something the launch deck never does: nearly 40% of the couriers you just paid for would have shown up anyway. That free-rider share is the whole reason this prototype exists. The <a href="/notes/uber-market-launch/">companion note</a> argues a marketplace launch is a courier-elasticity problem wearing a growth-story costume, and that the killer is siloing the supply analyst from the demand analyst — but that's a claim that's easy to nod along to in prose, so I built the simulator I keep gesturing at when I tell the story, and the gesturing stops where the slider starts. <a href="https://github.com/bigbrownjeff/uber-market-launch">Repo's here</a>.</p>
+<p>Two artefacts. One is a courier-elasticity simulator with a free-rider calculator bolted on. The other is a merchant cohort-decay panel with a survival cliff in it. They're the supply half and the demand half of the same launch, and the whole point of putting them in one repo is that they belong on the same screen.</p>
+<h3>The slider, and the column nobody builds</h3>
+<p>Set a peak-window incentive — call it $5/hr, the same number from the 2019 take-home — and the supply curve shifts. Utilisation climbs from a 42% baseline toward a ceiling it never reaches, because the fleet is finite and some couriers are simply unavailable at peak no matter what you pay them. That's the easy part; a saturating curve is a saturating curve, and any analyst can fit one.</p>
+<p>The part that earns its keep is the decomposition. At $5/hr the model pulls about 1,000 extra couriers into the window — and roughly 380 of them would have shown up anyway. They're free riders, and you're now paying each one a bonus to do the thing they were already doing. The free-rider <em>share</em> falls as the incentive climbs (the couriers who need $12 to leave the couch are, definitionally, the marginal ones), which means the cheap incentives are the ones most contaminated by free-riding. That's counterintuitive enough that it's worth seeing move on a slider rather than taking my word for it.</p>
+<p>Here's the accounting subtlety that makes finance care, stated plainly: the incentive is paid to <em>every</em> courier active in the window, not just the marginal ones. So free riders aren't an attribution footnote you can wave off in a methods appendix — they're a literal line in the spend. The simulator divides total incentive spend by <em>incremental</em> trips, and at $5/hr that's about $10.45 a trip, which is a very different number from the one you get if you pretend the whole lift was incremental. I have sat in the budget review where that gap got discovered live, with the bias of somebody who has watched a Q1 plan get rewritten in week two of Q1, and I'd rather hand you the column now.</p>
+<div class="pull-numbers">
+  <div><span class="n">~38%</span><span class="l">of the $5/hr lift is free riders (synthetic)</span></div>
+  <div><span class="n">$10.45</span><span class="l">cost per incremental trip, not per trip</span></div>
+  <div><span class="n">69%→1%</span><span class="l">merchant survival, gate-clearers vs missers</span></div>
+</div>
+
+<h3>The cliff on the demand side</h3>
+<p>The second artefact is the merchant version of the same honesty. Onboard a cohort of merchants, watch them order week by week, and the curve splits into two populations almost immediately: the ones who clear an early activity bar and stick, and the ones who don't and fizzle. The model bakes in a gate — five orders by week four — and the survival gap across it is brutal. Clear the gate and you've got a roughly 69% chance of still ordering at week twelve. Miss it and you're at about 1%.</p>
+<p>Those are synthetic numbers, but the <em>shape</em> is the one I cleaned out of the 2019 driver-signup-to-first-trip data, where a bit over half the signups took a first trip inside thirty days and the rest mostly never did. The lesson the shape teaches is operational: the intervention has to be early and per-cohort. The wrong move — and I've watched a Q-commerce team make exactly this one — is the re-engagement email to merchants who haven't ordered in ninety days. By ninety days the cliff has already happened. You're emailing the dead.</p>
+<h3>What's real and what's a prop</h3>
+<p>Everything in the repo is synthetic. There is no Uber data in it, no merchant data, no courier data — the numbers come from a parametric model with defaults I picked to make the curves legible, and the <a href="https://github.com/bigbrownjeff/uber-market-launch/blob/main/PRIVACY.md">PRIVACY.md</a> says so in more words. What's real is the method: the saturating supply curve, the free-rider metric, the gate-and-cliff cohort model. You point it at your own courier-acceptance logs, fit three parameters, and it becomes yours. Until then it's a prop — a good prop, the kind you can turn a knob on, but a prop.</p>
+<p>The Python is the core; there's a <code>sim.html</code> with an actual slider if you'd rather drag than type, plus saved example CSVs and two PNGs so you can see the curves without installing anything. It runs in thirty seconds. I have the disease where every prototype wants to grow a second feature, so the temptation was to model surge pricing, multi-vertical elasticity, a real Kaplan-Meier hazard, a dashboard, a small marketplace simulation, a partridge in a pear tree — and I cut all of it, because the wedge is two curves and a column, and the rest is the production engagement.</p>
+<h3>Why a prop is the point</h3>
+<p>The companion note's real argument is an org-design one: put the supply analyst and the demand analyst on the same row of the same spreadsheet, every Monday, and make a human arbitrate the tradeoff. A simulator can't do that for you. What it <em>can</em> do is be the thing both analysts are looking at when the argument starts — supply pointing at the free-rider share, demand pointing at the survival cliff, and a number on the screen that neither of them can wave away. The artefact isn't the deliverable. The argument it forces is.</p>
+<p>If your courier-acceptance numbers are coming in softer than the launch deck promised, the curve's probably not the surprise — the free-rider share underneath it is. That's the one worth fitting to your own data before the budget review, not after.</p>
+  </article>
+
+  <section class="note-cta">
+    <div>
+      <div class="note-cta-eyebrow">If this is your problem</div>
+      <p class="note-cta-p">I do 4&ndash;12 week fixed-SOW consulting on the kind of work this note describes.</p>
+    </div>
+    <a href="https://jeffpinto.com/engage/" class="btn note-cta-btn">Scope an engagement &rarr;</a>
+  </section>
+
+  <div class="note-links">
+    <span class="lbl">Source / prototype</span>
+      <a href="one-pager.html">One-pager &rarr;</a>
+      <a href="https://github.com/bigbrownjeff/uber-market-launch" target="_blank" rel="noopener">Repo &uarr;</a>
+  </div>
+
+  <div class="foot">
+    Prototype companion to a note staged for jeffpinto.com/notes. Synthetic or
+    public data only &mdash; no secrets, no PII, no client data. Built June 2026.
+  </div>
+
+</div>
+</body>
+</html>
